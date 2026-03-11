@@ -202,8 +202,7 @@
 }
 
 /* #region Chat overlay --- */
-body.with-chat-overlay main.sc-2834cd26-0,
-body.with-chat-overlay section.sc-efdc0320-0 {
+body.with-chat-overlay main.lbltmd {
   position: fixed !important;
   top: 0 !important;
   left: 0 !important;
@@ -217,13 +216,13 @@ body.with-chat-overlay section.sc-efdc0320-0 {
   background: #000 !important;
 }
 
-body.with-chat-overlay section.sc-efdc0320-0 video {
+body.with-chat-overlay main > section {
   object-fit: contain !important;
   width: 100% !important;
   height: 100% !important;
 }
 
-body.with-chat-overlay aside.sc-efdc0320-1 {
+body.with-chat-overlay main > aside {
   position: fixed !important;
   right: 0 !important;
   height: calc(var(--taf-chat-height, 100) * 1vh) !important;
@@ -240,7 +239,7 @@ body.with-chat-overlay .r-ongcgc {
   font-size: calc(var(--taf-chat-font-size, 25) * 1px) !important;
 }
 
-body.with-chat-overlay.chat-left aside.sc-efdc0320-1 {
+body.with-chat-overlay.chat-left main > aside {
   right: auto !important;
   left: 0 !important;
   border-left: none !important;
@@ -249,21 +248,16 @@ body.with-chat-overlay.chat-left aside.sc-efdc0320-1 {
 }
 
 /* Vertical alignment */
-body.with-chat-overlay.chat-top aside.sc-efdc0320-1 {
+body.with-chat-overlay.chat-top main > aside {
   top: 0 !important;
   bottom: auto !important;
 }
-body.with-chat-overlay.chat-bottom aside.sc-efdc0320-1 {
+body.with-chat-overlay.chat-bottom main > aside {
   bottom: 0 !important;
   top: auto !important;
   overflow: hidden !important;
 }
-body.with-chat-overlay aside.sc-efdc0320-1 .Layout-sc-1xcs6mc-0,
-body.with-chat-overlay aside.sc-efdc0320-1 .sc-3fdb8c5c-0,
-body.with-chat-overlay aside.sc-efdc0320-1 .css-g5y9jx {
-  background-color: transparent !important;
-}
-body.with-chat-overlay aside.sc-efdc0320-1 .sc-fb07d9f1-0 {
+body.with-chat-overlay main > aside > div > div > div:nth-of-type(3) {
   display: none !important;
 }
 /* #endregion Chat overlay */
