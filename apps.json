@@ -1,0 +1,9 @@
+{
+  "id": "twitch.adamffdev.v1",
+  "version": "1.6.3",
+  "name": "Twitch AdFree",
+  "category": "Media",
+  "type": "ipk",
+  "package": "https://github.com/pokalo/twich4Dasha/releases/download/v1.6.3/twitch.adamffdev.v1_1.6.3_all.ipk",
+  "icon": "https://raw.githubusercontent.com/pokalo/twich4Dasha/main/assets/icon.png"
+}
