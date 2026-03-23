@@ -1,0 +1,89 @@
+name: Build and Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build app
+        run: npm run build
+
+      - name: Package IPK
+        run: npm run package
+
+      - name: Generate manifest
+        run: |
+          cd dist
+          APP_ID=$(jq -r '.id' appinfo.json)
+          VERSION=$(jq -r '.version' appinfo.json)
+          IPK_FILE="${APP_ID}_${VERSION}_all.ipk"
+          
+          HASH=$(sha256sum "$IPK_FILE" | cut -d' ' -f1)
+          
+          cat > "$APP_ID.manifest.json" << EOF
+          {
+            "id": "$APP_ID",
+            "version": "$VERSION",
+            "type": "web",
+            "title": "$(jq -r '.title' appinfo.json)",
+            "iconUri": "https://raw.githubusercontent.com/${{ github.repository }}/refs/heads/main/assets/largeIcon.png",
+            "sourceUrl": "https://github.com/${{ github.repository }}",
+            "rootRequired": false,
+            "ipkUrl": "https://github.com/${{ github.repository }}/releases/download/${{ github.event.release.tag_name }}/$IPK_FILE",
+            "ipkHash": {
+              "sha256": "$HASH"
+            }
+          }
+          EOF
+
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            dist/*.ipk
+            dist/*.manifest.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update apps.json
+        run: |
+          VERSION=${{ github.event.release.tag_name }}
+          REPO_URL="https://github.com/${{ github.repository }}"
+          
+          # Create updated apps.json
+          cat > apps.json << EOF
+          {
+            "packages": [
+              {
+                "id": "twitch.adamffdev.v1",
+                "title": "Twitch AdFree",
+                "shortDescription": "Ad-free Twitch client for webOS",
+                "iconUri": "https://raw.githubusercontent.com/${{ github.repository }}/refs/heads/main/assets/icon.png",
+                "manifestUrl": "$REPO_URL/releases/download/$VERSION/twitch.adamffdev.v1.manifest.json"
+              }
+            ]
+          }
+          EOF
+
+      - name: Commit and push apps.json
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add apps.json
+          git commit -m "Update apps.json for $VERSION" || echo "No changes"
+          git push
