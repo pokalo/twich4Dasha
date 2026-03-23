@@ -5,7 +5,7 @@
       "title": "Twitch AdFree",
       "shortDescription": "Ad-free Twitch client for webOS",
       "iconUri": "https://raw.githubusercontent.com/pokalo/twich4Dasha/main/assets/icon.png",
-      "manifestUrl": "https://github.com/pokalo/twich4Dasha/releases/latest/download/twitch.adamffdev.v1.manifest.json"
+      "manifestUrl": "https://github.com/pokalo/twich4Dasha/releases/download/v1.6.3/twitch.adamffdev.v1.manifest.json"
     }
   ]
 }
